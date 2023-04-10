@@ -1,0 +1,44 @@
+{
+	"type": "minecraftBedrock",
+	"name": "Scripting Addon (Proper)",
+	"namespace": "scrpt",
+	"authors": [
+		"IolaireEagle"
+	],
+	"targetVersion": "1.19.50",
+	"description": "A Scripting Addon",
+	"experimentalGameplay": {
+		"holidayCreatorFeatures": false,
+		"creationOfCustomBiomes": false,
+		"upcomingCreatorFeatures": false,
+		"enableGameTestFramework": true,
+		"experimentalMolangFeatures": false,
+		"educationEdition": false
+	},
+	"bdsProject": false,
+	"packs": {
+		"behaviorPack": "./BP"
+	},
+	"worlds": [
+		"./worlds/*"
+	],
+	"compiler": {
+		"plugins": [
+			"generatorScripts",
+			"typeScript",
+			"entityIdentifierAlias",
+			"customEntityComponents",
+			"customItemComponents",
+			"customBlockComponents",
+			"customCommands",
+			"moLang",
+			"formatVersionCorrection",
+			[
+				"simpleRewrite",
+				{
+					"packName": "Scripting Addon (Proper)"
+				}
+			]
+		]
+	}
+}
