@@ -101,7 +101,7 @@ world.events.beforeChat.subscribe((event) => {
                 feedCommand(player)
             }
             else {
-                player.sendMessage("§eUnknown command!")
+                player.sendMessage("§cUnknown command!")
             }
             event.cancel = true
         } else {
