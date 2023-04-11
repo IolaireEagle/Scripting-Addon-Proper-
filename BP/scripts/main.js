@@ -105,7 +105,7 @@ world.events.beforeChat.subscribe((event) => {
             }
             event.cancel = true
         } else {
-            player.sendMessage("§cYou must be an operator to run this command!")
+            player.sendMessage("§eYou must be an operator to run this command!")
         }
     }
 })
