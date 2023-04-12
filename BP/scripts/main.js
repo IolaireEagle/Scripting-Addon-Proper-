@@ -1,4 +1,4 @@
-import { Container, Player, world, MinecraftEffectTypes, ItemStack } from "@minecraft/server";
+import { Container, Player, world, MinecraftEffectTypes, ItemStack, EnchantmentList } from "@minecraft/server";
 
 const validEnchants = ["explode"];
 
@@ -82,11 +82,16 @@ function fixCommand(sender) {
         /** @type {Container} */
         var container = sender.getComponent("inventory").container;
         var heldItem = container.getItem(sender.selectedSlot);
-        var newItem = new ItemStack(heldItem.type, heldItem.amount)
-        let enchantComponent = heldItem.getComponent("enchantments")
-        let lore = heldItem.getLore()
-        let newEnchants = newItem.getComponent("enchantments")
-        newEnchants = enchantComponent
+        var newItem = new ItemStack(heldItem.typeId, heldItem.amount)
+        /**
+         * @type {ItemEnchantsComponent}
+         */
+        const enchantComponent = heldItem.getComponent("enchantments")
+        const lore = heldItem.getLore()
+        const newEnchants = []
+        for (const enchant of enchantComponent.enchantments) {
+            newEnchants.push(enchant)
+        }
         newItem.setLore(lore)
         container.setItem(sender.selectedSlot, newItem)
     }
@@ -116,16 +121,16 @@ world.events.beforeChat.subscribe((event) => {
 
             } else if (event.message.includes("peaceful")) {
                 player.runCommandAsync("difficulty p")
-                player.sendMessage("Set the difficulty to Peaceful!")
+                player.sendMessage("§dSet the difficulty to Peaceful!")
             } else if (event.message.includes("easy")) {
                 player.runCommandAsync("difficulty e")
-                player.sendMessage("Set the difficulty to Easy!")
+                player.sendMessage("§dSet the difficulty to Easy!")
             } else if (event.message.includes("normal")) {
                 player.runCommandAsync("difficulty n")
-                player.sendMessage("Set the difficulty to Normal!")
+                player.sendMessage("§dSet the difficulty to Normal!")
             } else if (event.message.includes("hard")) {
                 player.runCommandAsync("difficulty h")
-                player.sendMessage("Set the difficulty to Hard!")
+                player.sendMessage("§dSet the difficulty to Hard!")
             } else if (event.message.includes("explode")) {
                 let lvl = event.message.replace(/[a-z, !]/gi, '')
                 noExclamName = noExclamName.replace("explode", "")
@@ -134,18 +139,20 @@ world.events.beforeChat.subscribe((event) => {
                 feedCommand(player)
             } else if (event.message.includes("gmc")) {
                 event.sender.runCommandAsync("gamemode c @s")
-                player.sendMessage("Set own gamemode to Creative!")
+                player.sendMessage("§dSet own gamemode to Creative!")
             } else if (event.message.includes("gmsp")) {
                 event.sender.runCommandAsync("gamemode spectator @s")
-                player.sendMessage("Set own gamemode to Spectator!")
+                player.sendMessage("§dSet own gamemode to Spectator!")
             } else if (event.message.includes("gma")) {
                 event.sender.runCommandAsync("gamemode a @s")
-                player.sendMessage("Set own gamemode to Adventure!")
+                player.sendMessage("§dSet own gamemode to Adventure!")
             } else if (event.message.includes("gms")) {
                 event.sender.runCommandAsync("gamemode s @s")
-                player.sendMessage("Set own gamemode to Survival!")
+                player.sendMessage("§dSet own gamemode to Survival!")
             } else if (event.message.concat(" ").includes("fix ")) {
                 fixCommand(event.sender)
+            } else if (event.message.concat(" ").includes("cheese ")) {
+                event.sender.onScreenDisplay.setTitle("§6§l§oCheese")
             }
             else {
                 player.sendMessage("§cUnknown command!")
